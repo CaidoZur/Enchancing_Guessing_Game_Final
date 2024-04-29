@@ -37,14 +37,19 @@ while True:
         guessme = generate_random_int(low, high)
         difficulty_banner = f"{banner}\nDifficulty: {'Easy' if low == 1 and high == 50 else 'Medium' if low == 1 and high == 100 else 'Hard'}\n"
         conn.sendall(difficulty_banner.encode())
+        
+        username = conn.recv(1024).decode().strip()
+        print(f"Username: {username}")
 
+        attempt_count = 0
         while True:
             client_input = conn.recv(1024)
             guess = int(client_input.decode().strip())
             print(f"User guess attempt: {guess}")
+            attempt_count += 1
 
             if guess == guessme:
-                conn.sendall(b"Correct Answer!")
+                conn.sendall(f"Correct Answer! Your guess tries: {attempt_count}".encode())
                 play_again_data = conn.recv(1024).decode().strip().lower()
                 if play_again_data == "yes":
                     break

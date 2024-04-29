@@ -38,7 +38,12 @@ def choose_difficulty():
         else:
             print("Invalid choice. Please choose again.")
 
+def get_username():
+    username = input("Enter your username: ").strip()
+    s.sendall(username.encode())
+
 choose_difficulty()
+get_username()
 play_game()
 
 while True:
@@ -46,6 +51,7 @@ while True:
     if play_again == "yes":
         s.sendall(play_again.encode())
         choose_difficulty()
+        get_username()
         play_game()
     else:
         s.sendall("no".encode())
