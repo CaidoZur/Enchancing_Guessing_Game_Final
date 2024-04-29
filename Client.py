@@ -1,27 +1,38 @@
 import socket
 
-
-host = "10.125.41.154"
+host = "127.0.0.1"
 port = 7777
-
 
 s = socket.socket()
 s.connect((host, port))
 
-# received the banner
-data = s.recv(1024)
-# print banner
-print(data.decode().strip())
+def play_game():
+    # received the banner
+    data = s.recv(1024)
+    # print banner
+    print(data.decode().strip())
+
+    while True:
+        # let's get our input from the user
+        user_input = input("").strip()
+
+        s.sendall(user_input.encode())
+        reply = s.recv(1024).decode().strip()
+        
+        print(reply)
+
+        if "Correct" in reply:
+            break
+
+play_game()
 
 while True:
-    #let get our input from the user
-    user_input = input("").strip()
-
-    s.sendall(user_input.encode())
-    reply = s.recv(1024).decode().strip()
-    if "Correct" in reply:
-        print(reply)
+    play_again = input("Do you want to play again? (yes/no): ").strip().lower()
+    if play_again == "yes":
+        s.sendall(play_again.encode())
+        play_game()
+    else:
+        s.sendall("no".encode())
         break
-    print(reply)
-    continue
+
 s.close()
