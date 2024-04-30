@@ -47,7 +47,7 @@ get_username()
 play_game()
 
 while True:
-    play_again = input("Do you want to play again? (yes/no): ").strip().lower()
+    play_again = input("Play again? (yes/no): ").strip().lower()
     if play_again == "yes":
         s.sendall(play_again.encode())
         choose_difficulty()
